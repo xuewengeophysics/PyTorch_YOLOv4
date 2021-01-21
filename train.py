@@ -395,6 +395,7 @@ if __name__ == '__main__':
     opt = parser.parse_args()
 
     # Resume
+    ##继续/恢复
     if opt.resume:
         last = get_latest_run() if opt.resume == 'get_last' else opt.resume  # resume from most recent run
         if last and not opt.weights:
@@ -414,6 +415,7 @@ if __name__ == '__main__':
     opt.global_rank = -1
 
     # DDP mode
+    ##DDP(DistributedDataParallel)
     if opt.local_rank != -1:
         assert torch.cuda.device_count() > opt.local_rank
         torch.cuda.set_device(opt.local_rank)
@@ -438,6 +440,7 @@ if __name__ == '__main__':
         train(hyp, opt, device, tb_writer)
 
     # Evolve hyperparameters (optional)
+    ##进化超参数
     else:
         # Hyperparameter evolution metadata (mutation scale 0-1, lower_limit, upper_limit)
         meta = {'lr0': (1, 1e-5, 1e-1),  # initial learning rate (SGD=1E-2, Adam=1E-3)
